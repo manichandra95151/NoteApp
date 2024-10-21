@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchNotes, selectAllNotes, deleteNote, updateNote } from '../redux/noteSlice';
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
+import { StickyNote, Delete } from 'lucide-react';
 import DeleteModal from './utils/Modal/Modal';
 import SyncLoader from 'react-spinners/SyncLoader';
 import NoteItem from './NoteItem';  // Importing new component
@@ -63,6 +64,16 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
       </div>
     );
   }
+
+  if (notes.length === 0) {
+    return (
+        <div className="flex flex-col items-center justify-center h-full text-center p-4">
+            <StickyNote className="w-16 h-16 text-gray-600 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">No notes yet</h3>
+            <p className="text-gray-400">Create your first note by filling out the form on the right.</p>
+        </div>
+    );
+}
 
   return (
     <div className="flex-grow overflow-hidden">
