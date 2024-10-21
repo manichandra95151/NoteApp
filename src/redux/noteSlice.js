@@ -55,9 +55,15 @@ const notesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(fetchNotes.pending, (state) => {
+                state.status = 'loading'; // Set status to loading when fetch starts
+            })
             .addCase(fetchNotes.fulfilled, (state, action) => {
                 state.notes = action.payload;
-                state.status = 'succeeded';
+                state.status = 'succeeded'; // Set status to succeeded when fetch is done
+            })
+            .addCase(fetchNotes.rejected, (state) => {
+                state.status = 'failed'; // Set status to failed in case of an error
             })
             .addCase(addNote.fulfilled, (state, action) => {
                 state.notes.push(action.payload);
@@ -72,7 +78,9 @@ const notesSlice = createSlice({
                 state.notes = state.notes.filter(note => note.id !== action.payload);
             });
     }
+    
 });
 export const selectAllNotes = (state) => state.notes.notes; // Selector for all notes
 
 export default notesSlice.reducer; // Export reducer
+
