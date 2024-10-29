@@ -37,7 +37,7 @@ A simple and elegant note-taking application built using React and Firebase. Thi
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/noteapp.git
+   git clone https://github.com/manichandra95151/NoteApp.git
    ```
 
 2. **Navigate to the project directory:**
