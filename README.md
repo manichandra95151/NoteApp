@@ -5,6 +5,10 @@ A simple and elegant note-taking application built using React and Firebase. Thi
 
 ![NoteApp](https://github.com/manichandra95151/Mani-s-Portfolio/blob/main/src/Data/imgaes/NoteApp.png?raw=true)
 
+## Live Demo
+
+Check out the live version of the project [here](https://note-app-pi-green.vercel.app/).
+
 ## Table of Contents
 
 - [Features](#features)
