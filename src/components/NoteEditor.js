@@ -4,7 +4,7 @@ import { addNote, updateNote } from '../redux/noteSlice';
 import { storage } from '../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { useAuth } from '../hooks/useAuth';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ClipLoader } from 'react-spinners';
 
@@ -21,6 +21,7 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
     const [imageUrls, setImageUrls] = useState([]);
     const [tags, setTags] = useState('');
     const [isPinned, setIsPinned] = useState(false);
+    const [alert, setAlert] = useState(null); 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const user = useAuth();
@@ -38,6 +39,15 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
         }
     }, [selectedNote]);
 
+    useEffect(() => {
+        if (alert) {
+            const timer = setTimeout(() => {
+                setAlert(null); // Clear alert after 3 seconds
+            }, 2000);
+            return () => clearTimeout(timer); // Cleanup on unmount or alert change
+        }
+    }, [alert]);
+
     const resetForm = () => {
         setTitle('');
         setDescription('');
@@ -50,7 +60,7 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
     const handleSaveNote = async () => {
         setLoading(true);
         if (!title.trim() || !description.trim() || !tags.trim()) {
-            toast.error("Please fill in the title, description, and at least one tag.");
+            setAlert({ type: 'error', message: 'Fill in all required fields.' });
             setLoading(false);
             return;
         }
@@ -67,15 +77,15 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
         try {
             if (selectedNote) {
                 await dispatch(updateNote({ id: selectedNote.id, note: noteData }));
-                toast.success("Note Updated!");
+                setAlert({ type: 'success', message: 'Note updated successfully!' });
             } else {
                 await dispatch(addNote(noteData));
-                toast.success("Note Saved!");
+                setAlert({ type: 'success', message: 'Note saved successfully!' });
             }
             onNoteCreated();
             resetForm();
         } catch (error) {
-            toast.error("Failed to save note. Please try again.");
+            setAlert({ type: 'error', message: 'Failed to save note. Try again.' });
         } finally {
             setLoading(false);
         }
@@ -102,7 +112,7 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
                 setImageUrls(updatedImageUrls);
                 await updateNoteInDatabase(updatedImageUrls);
             } catch (error) {
-                toast.error('Error deleting image from storage');
+                setAlert({ type: 'error', message: 'Error deleting image.' });
             }
         }
     };
@@ -118,12 +128,21 @@ const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
                 imageUrls: updatedImageUrls,
             };
             await dispatch(updateNote({ id: selectedNote.id, note: noteData }));
-            toast.success("Note updated successfully with new image URLs!");
+            setAlert({ type: 'success', message: 'Note updated successfully!' });
         }
     };
 
     return (
         <div className="nmax-h-[680px] overflow-y-auto space-y-6 p-4 bg-gray-800 rounded-md">
+            {alert && (
+                <div
+                    className={`p-2 rounded text-center text-sm ${
+                        alert.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                    } text-white`}
+                >
+                    {alert.message}
+                </div>
+            )}
             {loading ? ( // Loader displayed when loading
                 <div className="flex justify-center items-center h-full">
                     <ClipLoader size={50} color="#ffffff" />&nbsp;&nbsp;<span>Loading</span>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchNotes, selectAllNotes, deleteNote, updateNote } from '../redux/noteSlice';
-import { ToastContainer, toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'; 
-import { StickyNote, Delete } from 'lucide-react';
+// import { ToastContainer, toast } from 'react-toastify'; 
+// import 'react-toastify/dist/ReactToastify.css'; 
+import { StickyNote } from 'lucide-react';
 import DeleteModal from './utils/Modal/Modal';
 import SyncLoader from 'react-spinners/SyncLoader';
 import NoteItem from './NoteItem';  // Importing new component
@@ -30,7 +30,7 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
   const handleConfirmDelete = () => {
     if (noteToDelete) {
       dispatch(deleteNote(noteToDelete)); 
-      toast.success("Note deleted successfully!"); 
+      // toast.success("Note deleted successfully!"); 
     }
     handleCloseModal(); 
   };
@@ -38,8 +38,8 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
   const handleTogglePin = (note) => {
     const updatedNote = { ...note, isPinned: !note.isPinned };
     dispatch(updateNote({ id: note.id, note: updatedNote }));
-    const message = updatedNote.isPinned ? "Note pinned!" : "Note unpinned!";
-    toast.success(message);
+    // const message = updatedNote.isPinned ? "Note pinned!" : "Note unpinned!";
+    // toast.success(message);
   };
 
   useEffect(() => {
@@ -67,11 +67,11 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
 
   if (notes.length === 0) {
     return (
-        <div className="flex flex-col items-center justify-center h-full text-center p-4">
-            <StickyNote className="w-16 h-16 text-gray-600 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-300 mb-2">No notes yet</h3>
-            <p className="text-gray-400">Create your first note by filling out the form on the right.</p>
-        </div>
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
+        <StickyNote className="w-16 h-16 text-gray-600 mb-4" />
+        <h3 className="text-xl font-semibold text-gray-300 mb-2">No notes yet</h3>
+        <p className="text-gray-400">Create a note !!</p>
+      </div>
     );
 }
 
@@ -93,7 +93,7 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
         ))
       )}
       <DeleteModal isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmDelete} />
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };
