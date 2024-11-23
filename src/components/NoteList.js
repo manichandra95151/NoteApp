@@ -59,11 +59,20 @@ const NoteList = ({ searchTerm, shouldRefetch, onSelectNote }) => {
 
   if (status === 'loading') {
     return (
-      <div className="flex justify-center items-center h-full">
-        <SyncLoader color="#36d7b7" size={15} />&nbsp;&nbsp;<span>Loading</span>
+      <div
+        className="flex justify-center items-center min-h-screen"
+        style={{
+          height: '100%', 
+          width: '100%', 
+        }}
+      >
+        <SyncLoader color="#36d7b7" size={15} />
+        &nbsp;&nbsp;<span>Loading</span>
       </div>
     );
   }
+  
+  
 
   if (notes.length === 0) {
     return (
