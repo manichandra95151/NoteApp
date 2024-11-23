@@ -23,7 +23,6 @@ function App() {
                     }
                 />
                 <Route path="/login" element={<LoginPage />} />
-                {/* Add other routes if needed */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Router>

@@ -13,6 +13,7 @@ import TagInput from './TagInput';
 import PinNote from './PinNote';
 import ImageUpload from './ImageUploader';
 
+
 const NoteEditor = React.memo(({ onNoteCreated, selectedNote }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');

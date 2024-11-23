@@ -18,7 +18,7 @@ export const fetchNotes = createAsyncThunk('notes/fetchNotes', async () => {
 export const addNote = createAsyncThunk('notes/addNote', async (note) => {
     const noteData = {
         ...note,
-        pinnedAt: note.isPinned ? new Date().toISOString() : null, // Save timestamp if pinned
+        pinnedAt: note.isPinned ? new Date().toISOString() : null, 
     };
     const docRef = await addDoc(collection(db, 'notes'), noteData);
     return { id: docRef.id, ...noteData };
@@ -80,7 +80,7 @@ const notesSlice = createSlice({
     }
     
 });
-export const selectAllNotes = (state) => state.notes.notes; // Selector for all notes
+export const selectAllNotes = (state) => state.notes.notes; 
 
-export default notesSlice.reducer; // Export reducer
+export default notesSlice.reducer; 
 
